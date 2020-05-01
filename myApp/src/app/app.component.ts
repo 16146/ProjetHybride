@@ -33,14 +33,19 @@ export class AppComponent implements OnInit {
     //   icon: 'warning'
     // },
     {
+      title: 'Accueil',
+      url: '/accueil',
+      icon: 'home'
+    },
+    {
       title: 'Notes',
-      url: '/folder/Notes',
-      icon: 'mail'
+      url: '/notes',
+      icon: 'document-text'
     },
     {
       title: 'Catégories',
-      url: '/folder/Catégories',
-      icon: 'archive'
+      url: '/categories',
+      icon: 'albums'
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
