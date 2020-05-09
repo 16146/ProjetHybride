@@ -5,5 +5,42 @@
 </ion-header>
 
 <ion-content>
-
+  <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
+      <!-- <ion-item *ngFor="let todo of taskList; let i = index">
+          {{todo}}
+          <div class="item-note" item-end>
+            <button ion-button clear (click)="updateTask(i)">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button clear (click)="deleteTask(i)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </div>
+        </ion-item> -->
+    <ion-item lines="full">
+      <ion-label position="floating" >Entrer ici une nouvelle catégorie</ion-label>
+      <ion-input type="text" formControlName="task" required></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.task.errors?.required">
+        task is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.task.errors?.minlength">
+          task should be min 2 chars long.
+      </span>
+    <!-- Checkboxes -->
+    <!-- <ion-list lines="full">
+      <ion-list-header>
+        <ion-label>Subjects</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>History</ion-label>
+        <ion-checkbox></ion-checkbox>
+      </ion-item>
+    </ion-list> -->
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">Enregistrer</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>
