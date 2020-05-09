@@ -1,9 +1,58 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Edit-Note</ion-title>
+    <ion-title>Editer la note </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content padding>
+    <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
+        <ion-item lines="full">
+          <ion-label position="floating" >Entrer ici un titre</ion-label>
+          <ion-input type="text" formControlName="title" required></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.title.errors?.required">
+            title is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.title.errors?.minlength">
+              title should be min 2 chars long.
+          </span>
+          <ion-item lines="full">
+              <ion-label position="floating" >Entrer ici une description</ion-label>
+              <ion-input type="text" formControlName="content" required></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.content.errors?.required">
+              content is required.
+              </span>
+              <span class="error ion-padding" *ngIf="isSubmitted && errorControl.content.errors?.minlength">
+                  content should be min 2 chars long.
+            </span>
+        <ion-item lines="full">
+          <ion-item>
+            <ion-label value="cr.name">Choisir une catégorie</ion-label>
+            <ion-select  formControlName="category" >
+              <ion-item *ngFor="let cr of classrooms">
+                <ion-select-option value="{{cr.id}}&&&{{cr.name}}">{{cr.name}}</ion-select-option>
+              </ion-item>
+            </ion-select>
+          </ion-item>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.category.errors?.required">
+          category is required.
+        </span>
+        <!-- Checkboxes -->
+        <!-- <ion-list lines="full">
+          <ion-list-header>
+            <ion-label>Subjects</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>History</ion-label>
+            <ion-checkbox></ion-checkbox>
+          </ion-item>
+        </ion-list> -->
+        <ion-row>
+          <ion-col>
+            <ion-button [disabled]="!ionicForm.valid" type="submit" color="danger" expand="block" (click)="updateNote()">Enregistrer</ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
 </ion-content>

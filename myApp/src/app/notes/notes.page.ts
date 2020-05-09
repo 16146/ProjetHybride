@@ -22,7 +22,7 @@ export class NotesPage implements OnInit {
     this.getNotes();
   }
 
-  classrooms : any;
+  notes : any;
   category : any;
   async getNotes() {
     const loading = await this.loadingController.create({
@@ -32,7 +32,7 @@ export class NotesPage implements OnInit {
     await this.api.getNotes()
       .subscribe(res => {
         console.log(res);
-        this.classrooms = res;
+        this.notes = res;
         loading.dismiss();
       }, err => {
         console.log(err);
@@ -44,7 +44,7 @@ export class NotesPage implements OnInit {
       message: 'Deleting'
     });
     await loading.present();
-    await this.api.deleteClassroom(id)
+    await this.api.deleteNote(id)
       .subscribe(res => {
         loading.dismiss();
         this.getNotes();
@@ -58,7 +58,7 @@ export class NotesPage implements OnInit {
     this.getNotes();
    }
    ionViewWillEnter(){
-    this.api.getClassroom().subscribe(res => this.classrooms = res);
+    this.api.getNotes().subscribe(res => this.notes = res);
     }
 
 }

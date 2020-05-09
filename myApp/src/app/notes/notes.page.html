@@ -1,21 +1,28 @@
-<ion-header>
+<ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title>Notes</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Liste des notes</ion-title>
     </ion-toolbar>
   </ion-header>
   
   <ion-content>
     <ion-row>
           <ion-col>
-            <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-category']">Ajouter une nouvelle catégorie</ion-button>
+            <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-note']">Ajouter une nouvelle note</ion-button>
           </ion-col>
       </ion-row>
     <ion-list>
-      <ion-item *ngFor="let cr of classrooms" routerLink="/notes/{{cr.id}}">
-        <ion-icon name="desktop" slot="start"></ion-icon>
-        {{cr.title}}
+      <ion-item *ngFor="let cr of notes" >
+        <ion-nav-link routerLink="/notes/{{cr.id}}" href="#">
+          <h5>
+            <ion-icon size="large" name="reorder-three-outline" slot="start">
+        </ion-icon>&nbsp;&nbsp;{{cr.title}}
+      </h5>
+    </ion-nav-link>
         <div class="item-note" slot="end">
-          <button ion-button color="light" routerLink="/notes/edit/{{cr.id}}">Editer</button>
+          <button ion-button color="light" routerLink="/notes/{{cr.id}}/edit">Editer</button>
           &nbsp;
           <button ion-button color="light" (click)="delete(cr.id)">Supprimer</button>
         </div>

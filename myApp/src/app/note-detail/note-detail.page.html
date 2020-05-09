@@ -1,9 +1,35 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Note-Detail</ion-title>
-  </ion-toolbar>
-</ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title><strong>{{note.title}}</strong></ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+      <!-- <ion-row>
+            <ion-col>
+              <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-note']">Ajouter une nouvelle note</ion-button>
+            </ion-col>
+        </ion-row> -->
+        <ion-list>
+            <ion-item><ion-icon name="document-text-outline" slot="start">
 
-<ion-content>
+            </ion-icon><ion-row><ion-col><strong>Description</strong> : {{note.content}}</ion-col>
+            </ion-row>
+          </ion-item>
+            <ion-item><ion-icon name="calendar-outline" slot="start">
 
-</ion-content>
+            </ion-icon><ion-row><ion-col><strong>Date</strong> : {{note.date}}</ion-col>
+            </ion-row>
+          </ion-item>
+            <ion-item><ion-icon name="bookmark" slot="start">
+
+            </ion-icon><ion-row><ion-col><strong>Catégorie(s)</strong> : {{note.category}}</ion-col>
+            </ion-row>
+          </ion-item>
+            
+
+          </ion-list>
+  </ion-content>
