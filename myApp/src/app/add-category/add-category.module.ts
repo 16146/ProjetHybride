@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { NotesPageRoutingModule } from './notes-routing.module';
+import { AddCategoryPageRoutingModule } from './add-category-routing.module';
 
-import { NotesPage } from './notes.page';
+import { AddCategoryPage } from './add-category.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { NotesPage } from './notes.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    NotesPageRoutingModule
+    AddCategoryPageRoutingModule
   ],
-  declarations: [NotesPage]
+  declarations: [AddCategoryPage]
 })
-export class NotesPageModule {}
+export class AddCategoryPageModule {}
