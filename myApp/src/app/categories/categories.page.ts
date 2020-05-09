@@ -26,6 +26,7 @@ export class CategoriesPage implements OnInit {
   }
 
   classrooms : any;
+  preservedclassrooms : any;
   category : any;
   async getClassrooms() {
     const loading = await this.loadingController.create({
@@ -35,6 +36,7 @@ export class CategoriesPage implements OnInit {
     await this.api.getClassroom()
       .subscribe(res => {
         console.log(res);
+        this.preservedclassrooms =res;
         this.classrooms = res;
         loading.dismiss();
       }, err => {
@@ -64,4 +66,16 @@ export class CategoriesPage implements OnInit {
     this.api.getClassroom().subscribe(res => this.classrooms = res);
     }
 
+    filterList(evt) {
+      const val = evt.detail.value;
+      this.classrooms= this.preservedclassrooms;
+      if (val && val.trim() !== '') {
+        this.classrooms = this.classrooms.filter(term => {
+          return term.name.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
+        });
+      }
+      if (val.trim()==''){
+        this.classrooms= this.preservedclassrooms;
+      }
+    }
 }

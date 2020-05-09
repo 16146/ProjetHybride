@@ -15,6 +15,9 @@
         </ion-col>
     </ion-row>
   <ion-list>
+
+    <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
+
     <ion-item *ngFor="let cr of classrooms">
       <ion-icon name="bookmark" slot="start"></ion-icon>
       {{cr.name}}
@@ -23,7 +26,6 @@
         &nbsp;
         <button ion-button color="light" (click)="delete(cr.id)">Supprimer</button>
       </div>
-      
     </ion-item>
   </ion-list>
   <!--

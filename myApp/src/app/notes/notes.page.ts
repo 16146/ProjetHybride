@@ -23,6 +23,7 @@ export class NotesPage implements OnInit {
   }
 
   notes : any;
+  preservednotes : any;
   category : any;
   async getNotes() {
     const loading = await this.loadingController.create({
@@ -32,6 +33,7 @@ export class NotesPage implements OnInit {
     await this.api.getNotes()
       .subscribe(res => {
         console.log(res);
+        this.preservednotes = res;
         this.notes = res;
         loading.dismiss();
       }, err => {
@@ -59,6 +61,18 @@ export class NotesPage implements OnInit {
    }
    ionViewWillEnter(){
     this.api.getNotes().subscribe(res => this.notes = res);
+    }
+    filterList(evt) {
+      const val = evt.detail.value;
+      this.notes= this.preservednotes;
+      if (val && val.trim() !== '') {
+        this.notes = this.notes.filter(term => {
+          return term.title.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
+        });
+      }
+      if (val.trim()==''){
+        this.notes= this.preservednotes;
+      }
     }
 
 }

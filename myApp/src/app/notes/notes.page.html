@@ -13,6 +13,7 @@
             <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-note']">Ajouter une nouvelle note</ion-button>
           </ion-col>
       </ion-row>
+    <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
     <ion-list>
       <ion-item *ngFor="let cr of notes" >
         <ion-nav-link routerLink="/notes/{{cr.id}}" href="#">
