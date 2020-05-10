@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, forwardRef } from '@angular/core';
-import { RestApiService } from '../rest-api.service';
+import { RestApiService } from '../services/rest-api.service';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
