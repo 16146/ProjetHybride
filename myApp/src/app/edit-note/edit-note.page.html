@@ -21,10 +21,10 @@
         
     <ion-item lines="full">
       <ion-item>
-        <ion-label>Choisir une catégorie</ion-label>
-        <ion-select required formControlName="category" okText="Ok" cancelText="Annuler" >
-          <ion-item *ngFor="let c of categories">
-            <ion-select-option value="{{c.id}}&&&{{c.name}}">{{c.name}}</ion-select-option>
+        <ion-label >Choisir une catégorie</ion-label>
+        <ion-select placeholder="Sélectionner" formControlName="category" okText="Ok"  cancelText="Annuler" >
+          <ion-item *ngFor="let c of categories" >
+            <ion-select-option selected="true" value="{{c.id}}&&&{{c.name}}">{{c.name}}</ion-select-option>
           </ion-item>
         </ion-select>
       </ion-item>

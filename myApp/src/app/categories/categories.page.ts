@@ -10,16 +10,17 @@ import { LoadingController } from '@ionic/angular';
 //Inspiré de https://www.positronx.io/ionic-form-validation-tutorial/
 
 export class CategoriesPage implements OnInit {
-
+  notes : any;
   categories : any;
   preservedcategories : any;
   isSubmitted = false;
-
+  listeUsedCategories:any;
   ngOnInit() {
-    this.getCategories();
+    this.getCategoriesAndNotes();
   }
   
-  async getCategories() {
+  async getCategoriesAndNotes() {
+    let listeUsedCategories = [];
     const loading = await this.loadingController.create({
       message: 'Loading'
     });
@@ -34,7 +35,21 @@ export class CategoriesPage implements OnInit {
         console.log(err);
         loading.dismiss();
       });
+      await this.api.getNotes()
+      .subscribe(res => {
+        console.log(res);
+        this.notes = res;
+        loading.dismiss();
+        this.notes.forEach(element => {
+          listeUsedCategories = listeUsedCategories.concat(element.category.name);
+        });
+        this.listeUsedCategories = listeUsedCategories ;
+      }, err => {
+        console.log(err);
+        loading.dismiss();
+      });
   }
+
 
   async deleteCategory(id) {
     const loading = await this.loadingController.create({
@@ -44,18 +59,18 @@ export class CategoriesPage implements OnInit {
     await this.api.deleteCategory(id)
       .subscribe(res => {
         loading.dismiss();
-        this.getCategories();
+        this.getCategoriesAndNotes();
       }, err => {
         console.log(err);
         loading.dismiss();
       });
   }
   constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, public loadingController: LoadingController) {
-    this.getCategories();
+    this.getCategoriesAndNotes();
    }
 
   ionViewWillEnter(){
-    this.api.getCategories().subscribe(res => this.categories = res);
+    this.getCategoriesAndNotes();
   }
 
   filterList(evt) {

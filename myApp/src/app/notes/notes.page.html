@@ -13,9 +13,11 @@
       <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-note']">Ajouter une nouvelle note</ion-button>
     </ion-col>
   </ion-row>
+  <ion-item>
+  <ion-searchbar placeholder="Recherche par titre"showCancelButton="never" (ionChange)="filterListTitle($event)"></ion-searchbar>
+  <ion-searchbar placeholder="Recherche par catégorie" showCancelButton="never" (ionChange)="filterListCategory($event)"></ion-searchbar>
+  </ion-item>
 
-  <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
-    
   <ion-list *ngFor="let cr of notes" >
     <ion-item-sliding>
       <ion-nav-link routerLink="/notes/{{cr.id}}" href="#">
@@ -27,8 +29,8 @@
         </ion-item>
       </ion-nav-link>
       <ion-item-options side="end">
-        <button ion-button style="background-color:green; color:white" routerLink="/notes/{{cr.id}}/edit">Editer</button>
-        <button ion-button style="background-color:red; color:white" (click)="deleteNote(cr.id)">Supprimer</button>
+        <ion-button type="submit" routerLink="/notes/{{cr.id}}/edit">Editer</ion-button>
+        <ion-button type="submit" color="danger" (click)="deleteNote(cr.id)">Supprimer</ion-button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

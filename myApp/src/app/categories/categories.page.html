@@ -16,7 +16,7 @@
         </ion-col>
     </ion-row>
 
-    <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Recherche" showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
     
     <ion-list *ngFor="let c of categories">
         <ion-item-sliding >
@@ -26,8 +26,8 @@
             <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>
           </ion-item>
           <ion-item-options side="end">
-            <button ion-button style="background-color:green; color:white" routerLink="/categories/{{c.id}}">Editer</button>
-            <button ion-button style="background-color:red; color:white" (click)="deleteCategory(c.id)">Supprimer</button>
+            <ion-button type="submit" routerLink="/categories/{{c.id}}">Editer</ion-button>
+            <ion-button [disabled]="listeUsedCategories.includes(c.name)" type="submit" color="danger" (click)="deleteCategory(c.id)">Supprimer</ion-button>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>

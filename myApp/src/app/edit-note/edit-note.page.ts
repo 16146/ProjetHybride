@@ -15,6 +15,7 @@ export class EditNotePage implements OnInit {
   categories : any;
   note : any;
   isSubmitted = false;
+  
 
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
@@ -35,8 +36,7 @@ export class EditNotePage implements OnInit {
     await this.api.getNoteById(id).subscribe(res => {
       this.ionicForm.controls["title"].setValue(res.title);
       this.ionicForm.controls["content"].setValue(res.content);
-      this.ionicForm.controls["category"].setValue(res.category);
-      console.log(this.ionicForm);
+      this.ionicForm.controls["category"].setValue(String(res.category.id)+"&&&"+String(res.category.name));
       this.note = res;
       loading.dismiss();
     }, err => {

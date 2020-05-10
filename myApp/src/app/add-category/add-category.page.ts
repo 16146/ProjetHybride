@@ -1,51 +1,35 @@
-import { Component, OnInit, Injectable, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, forwardRef } from '@angular/core';
 import { RestApiService } from '../rest-api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { HttpClient, HttpHeaders, HttpErrorResponse,HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute, Router  } from '@angular/router';
-import { CategoriesPage } from '../categories/categories.page';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router  } from '@angular/router';
 
 @Component({
   selector: 'app-add-category',
   templateUrl: './add-category.page.html',
   styleUrls: ['./add-category.page.scss'],
 })
+
 export class AddCategoryPage implements OnInit {
   ionicForm: FormGroup;
-
-  categories: FormArray;
-
+  categories : any;
   isSubmitted = false;
-
-  
-  createNewTask()
-  {
-      console.log(this.ionicForm.value)
-  }
 
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      // email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      // dob: [this.defaultDate],
-      // mobile: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+      name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^((?!&&&).)*$')]],
     })
-    this.getClassrooms();
+    this.getCategories();
   }
 
-  classrooms : any;
-  category : any;
-  async getClassrooms() {
+  async getCategories() {
     const loading = await this.loadingController.create({
       message: 'Loading'
     });
     await loading.present();
-    await this.api.getClassroom()
+    await this.api.getCategories()
       .subscribe(res => {
-        console.log(res);
-        this.classrooms = res;
+        this.categories = res;
         loading.dismiss();
       }, err => {
         console.log(err);
@@ -66,28 +50,18 @@ export class AddCategoryPage implements OnInit {
       console.log(this.ionicForm.value)
     }
   }
-  createCategory(): FormGroup {
-    return this.formBuilder.group({
-      student_name: ''
-    });
-  }
-  
-  addBlankStudent(): void {
-    this.categories = this.ionicForm.get('category') as FormArray;
-    this.categories.push(this.createCategory());
-  }
+
   async saveCategory(){
     console.log(this.ionicForm.value);
-    await this.api.postClassroom(this.ionicForm.value)
+    await this.api.postCategory(this.ionicForm.value)
     .subscribe(res => {
         this.router.navigate(['/categories']);
       }, (err) => {
         console.log(err);
       });
   }
-  constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, public formBuilder: FormBuilder, public loadingController: LoadingController, private router: Router) {
-    console.log(api);
 
-   }
+  constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService,
+      public formBuilder: FormBuilder, public loadingController: LoadingController, private router: Router) { }
 
 }

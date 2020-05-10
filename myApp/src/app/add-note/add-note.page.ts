@@ -1,12 +1,9 @@
-import { Component, OnInit, Injectable, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, forwardRef } from '@angular/core';
 import { RestApiService } from '../rest-api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { HttpClient, HttpHeaders, HttpErrorResponse,HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute, Router  } from '@angular/router';
-import { CategoriesPage } from '../categories/categories.page';
-import { notEqual } from 'assert';
+import { FormControl, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Router  } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-note',
@@ -15,16 +12,13 @@ import { notEqual } from 'assert';
 })
 export class AddNotePage implements OnInit {
   ionicForm: FormGroup;
-  classrooms : any;
   category : FormArray;
   note: any ;
   id : any;
   name: any; 
-  categories : FormArray;
-
+  categories : any;
   isSubmitted = false;
 
-  
   createNewTask()
   {
       console.log(this.ionicForm.value)
@@ -35,28 +29,25 @@ export class AddNotePage implements OnInit {
       title: ['', [Validators.required, Validators.minLength(2)]],
       content: ['', [Validators.required, Validators.minLength(2)]],
       category:  new FormControl([])
-
-      // email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      // dob: [this.defaultDate],
-      // mobile: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
     })
-    this.getClassrooms();
+    this.getCategories();
   }
-  async getClassrooms() {
+
+  async getCategories() {
     const loading = await this.loadingController.create({
       message: 'Loading'
     });
     await loading.present();
-    await this.api.getClassroom()
+    await this.api.getCategories()
       .subscribe(res => {
-        console.log(res);
-        this.classrooms = res;
+        this.categories = res;
         loading.dismiss();
       }, err => {
         console.log(err);
         loading.dismiss();
       });
   }
+
   get errorControl() {
     return this.ionicForm.controls;
   }
@@ -70,6 +61,7 @@ export class AddNotePage implements OnInit {
       console.log(this.ionicForm.value)
     }
   }
+
   async saveNote(){
     this.category = this.ionicForm.value.category.split('&&&');
     this.note = {
@@ -80,21 +72,17 @@ export class AddNotePage implements OnInit {
         "name" : this.category[1],   
       },
     }
-    console.log("grr",this.note);
-     await this.api.postNote(this.note)
-     .subscribe(res => {
+    await this.api.postNote(this.note)
+      .subscribe(res => {
          this.router.navigate(['/notes']);
       
-       }, (err) => {
+      }, (err) => {
          console.log(err);
-       });
+      });
   }
-  constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, 
-  public formBuilder: FormBuilder, public loadingController: LoadingController, 
-  private router: Router) {
-    console.log(api);
 
-   }
+  constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, 
+      public formBuilder: FormBuilder, public loadingController: LoadingController, private router: Router) { }
 
 }
 

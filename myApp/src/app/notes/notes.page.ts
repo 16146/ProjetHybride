@@ -53,15 +53,27 @@ export class NotesPage implements OnInit {
    }
 
   ionViewWillEnter(){
-    this.api.getNotes().subscribe(res => this.notes = res);
+    this.getNotes();
   }
   
-  filterList(evt) {
+  filterListTitle(evt) {
     const val = evt.detail.value;
     this.notes= this.preservednotes;
     if (val && val.trim() !== '') {
       this.notes = this.notes.filter(term => {
         return term.title.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
+      });
+    }
+    if (val.trim()==''){
+      this.notes= this.preservednotes;
+    }
+  }
+  filterListCategory(evt) {
+    const val = evt.detail.value;
+    this.notes= this.preservednotes;
+    if (val && val.trim() !== '') {
+      this.notes = this.notes.filter(term => {
+        return term.category.name.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
       });
     }
     if (val.trim()==''){
