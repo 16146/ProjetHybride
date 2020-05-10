@@ -1,39 +1,36 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Liste des notes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Liste des notes</ion-title>
+  </ion-toolbar>
+</ion-header>
   
-  <ion-content>
-    <ion-row>
-          <ion-col>
-            <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-note']">Ajouter une nouvelle note</ion-button>
-          </ion-col>
-      </ion-row>
-    <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
-    <ion-list>
-      <ion-item *ngFor="let cr of notes" >
-        <ion-nav-link routerLink="/notes/{{cr.id}}" href="#">
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-note']">Ajouter une nouvelle note</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
+    
+  <ion-list *ngFor="let cr of notes" >
+    <ion-item-sliding>
+      <ion-nav-link routerLink="/notes/{{cr.id}}" href="#">
+        <ion-item>
           <h5>
-            <ion-icon size="large" name="reorder-three-outline" slot="start">
-        </ion-icon>&nbsp;&nbsp;{{cr.title}}
-      </h5>
-    </ion-nav-link>
-        <div class="item-note" slot="end">
-          <button ion-button color="light" routerLink="/notes/{{cr.id}}/edit">Editer</button>
-          &nbsp;
-          <button ion-button color="light" (click)="delete(cr.id)">Supprimer</button>
-        </div>
-        
-      </ion-item>
-    </ion-list>
-    <!--
-      <div *ngIf="selectedItem" padding>
-        You navigated here from <b>{{selectedItem.title }}</b>
-      </div>
-    -->
-  </ion-content>
+            <ion-icon style="color:brown" size="large" name="reorder-three-outline" slot="start">
+            </ion-icon>&nbsp;&nbsp;{{cr.title}}
+          </h5>
+        </ion-item>
+      </ion-nav-link>
+      <ion-item-options side="end">
+        <button ion-button style="background-color:green; color:white" routerLink="/notes/{{cr.id}}/edit">Editer</button>
+        <button ion-button style="background-color:red; color:white" (click)="deleteNote(cr.id)">Supprimer</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
   

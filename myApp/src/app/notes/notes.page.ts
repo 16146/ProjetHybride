@@ -1,10 +1,6 @@
-import { Component, OnInit, Injectable, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, forwardRef } from '@angular/core';
 import { RestApiService } from '../rest-api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { HttpClient, HttpHeaders, HttpErrorResponse,HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute, Router  } from '@angular/router';
 
 @Component({
   selector: 'app-notes',
@@ -13,26 +9,22 @@ import { ActivatedRoute, Router  } from '@angular/router';
 })
 export class NotesPage implements OnInit {
 
-  categories: FormArray;
-
   isSubmitted = false;
 
-  
   ngOnInit() {
     this.getNotes();
   }
 
   notes : any;
   preservednotes : any;
-  category : any;
+
   async getNotes() {
     const loading = await this.loadingController.create({
-      message: 'Loading'
+      message: 'Chargement en cours...'
     });
     await loading.present();
     await this.api.getNotes()
       .subscribe(res => {
-        console.log(res);
         this.preservednotes = res;
         this.notes = res;
         loading.dismiss();
@@ -41,7 +33,7 @@ export class NotesPage implements OnInit {
         loading.dismiss();
       });
   }
-  async delete(id) {
+  async deleteNote(id) {
     const loading = await this.loadingController.create({
       message: 'Deleting'
     });
@@ -59,20 +51,21 @@ export class NotesPage implements OnInit {
     console.log(api);
     this.getNotes();
    }
-   ionViewWillEnter(){
-    this.api.getNotes().subscribe(res => this.notes = res);
-    }
-    filterList(evt) {
-      const val = evt.detail.value;
-      this.notes= this.preservednotes;
-      if (val && val.trim() !== '') {
-        this.notes = this.notes.filter(term => {
-          return term.title.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
-        });
-      }
-      if (val.trim()==''){
-        this.notes= this.preservednotes;
-      }
-    }
 
+  ionViewWillEnter(){
+    this.api.getNotes().subscribe(res => this.notes = res);
+  }
+  
+  filterList(evt) {
+    const val = evt.detail.value;
+    this.notes= this.preservednotes;
+    if (val && val.trim() !== '') {
+      this.notes = this.notes.filter(term => {
+        return term.title.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
+      });
+    }
+    if (val.trim()==''){
+      this.notes= this.preservednotes;
+    }
+  }
 }

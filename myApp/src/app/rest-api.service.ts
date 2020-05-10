@@ -34,20 +34,20 @@ export class RestApiService {
     let body = res;
     return body || { };
   }
-  getClassroom(): Observable<any> {
+  getCategories(): Observable<any> {
     return this.http.get(apiUrlCategory, httpOptions).pipe(
       map(this.extractData),
       catchError(this.handleError));
   }
   
-  getClassroomById(id: string): Observable<any> {
+  getCategoryById(id: string): Observable<any> {
     const url = `${apiUrlCategory}/${id}`;
     return this.http.get(url, httpOptions).pipe(
       map(this.extractData),
       catchError(this.handleError));
   }
   
-  postClassroom(data): Observable<any> {
+  postCategory(data): Observable<any> {
     const url = `${apiUrlCategory}`;
     console.log(data);
     return this.http.post(url, data, httpOptions)
@@ -56,7 +56,7 @@ export class RestApiService {
       );
   }
   
-  updateClassroom(id: string, data): Observable<any> {
+  updateCategory(id: string, data): Observable<any> {
     const url = `${apiUrlCategory}/${id}`;
     return this.http.put(url, data, httpOptions)
       .pipe(
@@ -64,7 +64,7 @@ export class RestApiService {
       );
   }
   
-  deleteClassroom(id: string): Observable<{}> {
+  deleteCategory(id: string): Observable<{}> {
     const url = `${apiUrlCategory}/${id}`;
     return this.http.delete(url, httpOptions)
       .pipe(

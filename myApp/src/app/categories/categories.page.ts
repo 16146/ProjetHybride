@@ -1,10 +1,6 @@
-import { Component, OnInit, Injectable, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, forwardRef } from '@angular/core';
 import { RestApiService } from '../rest-api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { HttpClient, HttpHeaders, HttpErrorResponse,HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute, Router  } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -15,67 +11,63 @@ import { ActivatedRoute, Router  } from '@angular/router';
 
 export class CategoriesPage implements OnInit {
 
-
-  categories: FormArray;
-
+  categories : any;
+  preservedcategories : any;
   isSubmitted = false;
 
-  
   ngOnInit() {
-    this.getClassrooms();
+    this.getCategories();
   }
-
-  classrooms : any;
-  preservedclassrooms : any;
-  category : any;
-  async getClassrooms() {
+  
+  async getCategories() {
     const loading = await this.loadingController.create({
       message: 'Loading'
     });
     await loading.present();
-    await this.api.getClassroom()
+    await this.api.getCategories()
       .subscribe(res => {
         console.log(res);
-        this.preservedclassrooms =res;
-        this.classrooms = res;
+        this.preservedcategories =res;
+        this.categories = res;
         loading.dismiss();
       }, err => {
         console.log(err);
         loading.dismiss();
       });
   }
-  async delete(id) {
+
+  async deleteCategory(id) {
     const loading = await this.loadingController.create({
       message: 'Deleting'
     });
     await loading.present();
-    await this.api.deleteClassroom(id)
+    await this.api.deleteCategory(id)
       .subscribe(res => {
         loading.dismiss();
-        this.getClassrooms();
+        this.getCategories();
       }, err => {
         console.log(err);
         loading.dismiss();
       });
   }
   constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, public loadingController: LoadingController) {
-    console.log(api);
-    this.getClassrooms();
+    this.getCategories();
    }
-   ionViewWillEnter(){
-    this.api.getClassroom().subscribe(res => this.classrooms = res);
-    }
 
-    filterList(evt) {
-      const val = evt.detail.value;
-      this.classrooms= this.preservedclassrooms;
-      if (val && val.trim() !== '') {
-        this.classrooms = this.classrooms.filter(term => {
-          return term.name.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
-        });
-      }
-      if (val.trim()==''){
-        this.classrooms= this.preservedclassrooms;
-      }
+  ionViewWillEnter(){
+    this.api.getCategories().subscribe(res => this.categories = res);
+  }
+
+  filterList(evt) {
+    const val = evt.detail.value;
+    this.categories= this.preservedcategories;
+    if (val && val.trim() !== '') {
+      this.categories = this.categories.filter(term => {
+        return term.name.toLowerCase().indexOf(val.trim().toLowerCase()) > -1;
+      });
     }
+    if (val.trim()==''){
+      this.categories= this.preservedcategories;
+    }
+  }
 }

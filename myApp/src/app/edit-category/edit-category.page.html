@@ -1,18 +1,21 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title>Edit catégorie</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Modifier une catégorie</ion-title>
+  </ion-toolbar>
+</ion-header>
   
-  <ion-content padding>
-    <form [formGroup]="ionicForm">
-      <ion-item>
-        <ion-label position="floating" value="category">Modifier le nom de la catégorie </ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
-      </ion-item>
-      <ion-button shape="round" color="primary" expand="block" [disabled]="!ionicForm.valid" (click)="updateCategory()">Mettre à jour</ion-button>
-    </form>
-  </ion-content>
+<ion-content padding>
+  <form [formGroup]="ionicForm">
+    <ion-item>
+      <ion-label position="floating" value="category">Modifier le nom de la catégorie </ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    
+    <ion-col>
+      <ion-button color="danger" expand="block" [disabled]="!ionicForm.valid" (click)="updateCategory()">Mettre à jour</ion-button>
+    </ion-col>
+  </form>
+</ion-content>

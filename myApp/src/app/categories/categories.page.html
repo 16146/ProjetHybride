@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
@@ -7,30 +7,28 @@
     </ion-toolbar>
   </ion-header>
   
-
 <ion-content>
   <ion-row>
         <ion-col>
-          <ion-button type="submit" color="danger" expand="block" [routerLink]="['/add-category']">Ajouter une nouvelle catégorie</ion-button>
+          <ion-nav-link href="#" routerLink="/add-category">
+            <ion-button type="submit" color="danger" expand="block" >Ajouter une nouvelle catégorie</ion-button>
+          </ion-nav-link> 
         </ion-col>
     </ion-row>
-  <ion-list>
 
     <ion-searchbar showCancelButton="never" (ionChange)="filterList($event)"></ion-searchbar>
-
-    <ion-item *ngFor="let cr of classrooms">
-      <ion-icon name="bookmark" slot="start"></ion-icon>
-      {{cr.name}}
-      <div class="item-note" slot="end">
-        <button ion-button color="light" routerLink="/categories/{{cr.id}}">Editer</button>
-        &nbsp;
-        <button ion-button color="light" (click)="delete(cr.id)">Supprimer</button>
-      </div>
-    </ion-item>
-  </ion-list>
-  <!--
-    <div *ngIf="selectedItem" padding>
-      You navigated here from <b>{{selectedItem.title }}</b>
-    </div>
-  -->
+    
+    <ion-list *ngFor="let c of categories">
+        <ion-item-sliding >
+          <ion-item>
+            <ion-icon style=" color:yellow" name="bookmark" slot="start"></ion-icon>
+            {{c.name}}
+            <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>
+          </ion-item>
+          <ion-item-options side="end">
+            <button ion-button style="background-color:green; color:white" routerLink="/categories/{{c.id}}">Editer</button>
+            <button ion-button style="background-color:red; color:white" (click)="deleteCategory(c.id)">Supprimer</button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
 </ion-content>

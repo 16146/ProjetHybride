@@ -1,11 +1,7 @@
-import { Component, OnInit, Injectable, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, forwardRef } from '@angular/core';
 import { RestApiService } from '../rest-api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { HttpClient, HttpHeaders, HttpErrorResponse,HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router  } from '@angular/router';
-import { CategoriesPage } from '../categories/categories.page';
 
 @Component({
   selector: 'app-note-detail',
@@ -27,11 +23,11 @@ export class NoteDetailPage implements OnInit {
      await loading.present();
      await this.api.getNoteById(id).subscribe(res => {
       this.note = {
-        "id":res.id,
+        "id": res.id,
         "title": res.title,
         "content":res.content,
         "category":res.category.name,
-        "date":res.date,
+        "date": res.date,
       }
       loading.dismiss();
     }, err => {
@@ -42,5 +38,4 @@ export class NoteDetailPage implements OnInit {
   constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, public loadingController: LoadingController,private route: ActivatedRoute, private router: Router) {
     this.getNote(this.route.snapshot.paramMap.get('id'));
   }
-
 }

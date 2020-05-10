@@ -1,11 +1,8 @@
-import { Component, OnInit, Injectable, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, forwardRef } from '@angular/core';
 import { RestApiService } from '../rest-api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { HttpClient, HttpHeaders, HttpErrorResponse,HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, FormArray } from '@angular/forms';
+import { FormControl,  FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router  } from '@angular/router';
-import { CategoriesPage } from '../categories/categories.page';
 
 @Component({
   selector: 'app-edit-note',
@@ -14,27 +11,22 @@ import { CategoriesPage } from '../categories/categories.page';
 })
 export class EditNotePage implements OnInit {
   ionicForm: FormGroup;
-
-  categories: FormArray;
-  category : FormArray;
+  category : any;
+  categories : any;
+  note : any;
   isSubmitted = false;
 
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
       content: ['', [Validators.required, Validators.minLength(2)]],
-      category:  new FormControl([])
-
-      // email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      // dob: [this.defaultDate],
-      // mobile: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+      category:  new FormControl('', Validators.required),
     })
     this.getNote(this.route.snapshot.paramMap.get('id'));
-    this.getClassrooms();
+    this.getCategories();
   }
 
-  classrooms : any;
-  note : any;
+
   async getNote(id) {
     const loading = await this.loadingController.create({
       message: 'Loading'
@@ -52,15 +44,15 @@ export class EditNotePage implements OnInit {
       loading.dismiss();
     });
   }
-  async getClassrooms() {
+
+  async getCategories() {
     const loading = await this.loadingController.create({
       message: 'Loading'
     });
     await loading.present();
-    await this.api.getClassroom()
+    await this.api.getCategories()
       .subscribe(res => {
-        console.log(res);
-        this.classrooms = res;
+        this.categories = res;
         loading.dismiss();
       }, err => {
         console.log(err);
@@ -79,11 +71,6 @@ export class EditNotePage implements OnInit {
     } else {
       console.log(this.ionicForm.value)
     }
-  }
-  createCategory(): FormGroup {
-    return this.formBuilder.group({
-      student_name: ''
-    });
   }
   
   async updateNote(){
@@ -105,8 +92,6 @@ export class EditNotePage implements OnInit {
       });
   }
   
-  constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, public formBuilder: FormBuilder, public loadingController: LoadingController,private route: ActivatedRoute, private router: Router) {
-    console.log(api);
-   }
-
+  constructor(@Inject(forwardRef(() => RestApiService)) public api: RestApiService, public formBuilder: FormBuilder, public loadingController: LoadingController,
+          private route: ActivatedRoute, private router: Router) {}
 }

@@ -1,8 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Ajouter une nouvelle catégorie</ion-title>
-  </ion-toolbar>
-</ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title><strong>Ajouter une nouvelle catégorie</strong></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
 <ion-content>
   <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
     <ion-item lines="full">
@@ -15,16 +19,6 @@
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.minlength">
         category should be min 2 chars long.
       </span>
-    <!-- Checkboxes -->
-    <!-- <ion-list lines="full">
-      <ion-list-header>
-        <ion-label>Subjects</ion-label>
-      </ion-list-header>
-      <ion-item>
-        <ion-label>History</ion-label>
-        <ion-checkbox></ion-checkbox>
-      </ion-item>
-    </ion-list> -->
     <ion-row>
       <ion-col>
         <ion-button [disabled]="!ionicForm.valid" type="submit" color="danger" expand="block" (click)="saveCategory()">Enregistrer</ion-button>

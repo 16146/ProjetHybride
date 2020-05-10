@@ -1,5 +1,8 @@
 <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
       <ion-title>Ajouter une nouvelle note</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -28,7 +31,7 @@
       <ion-item lines="full">
         <ion-item>
           <ion-label>Choisir une catégorie</ion-label>
-          <ion-select value="Brown" formControlName="category">
+          <ion-select value="Brown" formControlName="category" okText="Ok" cancelText="Annuler">
             <ion-item *ngFor="let cr of classrooms">
               <ion-select-option value="{{cr.id}}&&&{{cr.name}}">{{cr.name}}</ion-select-option>
             </ion-item>
