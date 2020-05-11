@@ -27,6 +27,7 @@ export class NotesPage implements OnInit {
       .subscribe(res => {
         this.preservednotes = res;
         this.notes = res;
+        console.log(typeof(this.notes));
         loading.dismiss();
       }, err => {
         console.log(err);
